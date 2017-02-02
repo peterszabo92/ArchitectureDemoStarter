@@ -11,10 +11,6 @@ public class DimensionUtil {
 
     private Context context;
 
-    public DimensionUtil(Context context) {
-        this.context = context;
-    }
-
     /**
      * This method converts device specific pixels to density independent pixels.
      *
@@ -37,7 +33,7 @@ public class DimensionUtil {
         return size.x;
     }
 
-    public int getScreenWidth() {
+    public static int getScreenWidth(Context context) {
         final Point size = new Point();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getSize(size);

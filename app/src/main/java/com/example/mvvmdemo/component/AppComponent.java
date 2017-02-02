@@ -2,6 +2,8 @@ package com.example.mvvmdemo.component;
 
 import com.example.mvvmdemo.MainActivity;
 import com.example.mvvmdemo.data.manager.ImageManager;
+import com.example.mvvmdemo.gallery.fragment.BigPictureFragment;
+import com.example.mvvmdemo.gallery.viewmodel.BigPictureViewModel;
 import com.example.mvvmdemo.modul.AppModule;
 import com.example.mvvmdemo.modul.ManagerModule;
 
@@ -15,6 +17,10 @@ public interface AppComponent {
 
     void inject(MainActivity mainActivity);
 
+    void inject(BigPictureFragment bigPictureFragment);
+
     ImageManager getImageManager();
+
+    BigPictureViewModel getBigPictureViewModel();
 
 }

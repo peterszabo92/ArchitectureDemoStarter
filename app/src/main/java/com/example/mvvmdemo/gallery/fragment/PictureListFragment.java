@@ -1,4 +1,4 @@
-package com.example.mvvmdemo.gallery.view;
+package com.example.mvvmdemo.gallery.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

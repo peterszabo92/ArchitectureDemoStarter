@@ -22,7 +22,8 @@ public class PictureListViewModel implements GalleryPageContract.PictureListView
     public Observable<List<ListItem>> getPictureItems() {
         return imageManager.getImageModels()
                 .flatMapIterable(list -> list)
-                .map(imageModel -> (ListItem) new PictureListItem(imageModel))
+                .map(PictureListItem::new)
+                .cast(ListItem.class)
                 .toList();
     }
 

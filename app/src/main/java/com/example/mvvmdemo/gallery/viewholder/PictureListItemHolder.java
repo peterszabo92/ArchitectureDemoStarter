@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.util.AppConstants;
+import com.example.mvvmdemo.util.DimensionUtil;
+import com.example.mvvmdemo.util.ImageLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +31,7 @@ public class PictureListItemHolder extends RecyclerView.ViewHolder {
 
     private void setItemAspectRatio(View itemView) {
         int margin = itemView.getResources().getDimensionPixelSize(R.dimen.picture_item_space);
-        int cellWidth = (int) ((BaseApplication.getDimensionUtil().getScreenWidth() * 0.4) - (2 * margin));
+        int cellWidth = (int) ((DimensionUtil.getScreenWidth(itemView.getContext()) * 0.4) - (2 * margin));
         int cellHeight = (int) (cellWidth * AppConstants.RATIO_916);
 
         FrameLayout.LayoutParams pictureParams = new FrameLayout.LayoutParams(cellWidth, cellHeight);

@@ -4,12 +4,15 @@ import com.example.mvvmdemo.data.manager.ImageManager;
 import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 
 public class BigPictureViewModel implements GalleryPageContract.BigPictureViewModel {
 
     private ImageManager imageManager;
 
+    @Inject
     public BigPictureViewModel(ImageManager imageManager) {
         this.imageManager = imageManager;
     }

@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseFragment;
 import com.example.mvvmdemo.base.model.ViewModel;
-import com.example.mvvmdemo.gallery.view.BigPictureFragment;
-import com.example.mvvmdemo.gallery.view.PictureDescriptionFragment;
-import com.example.mvvmdemo.gallery.view.PictureListFragment;
+import com.example.mvvmdemo.gallery.fragment.BigPictureFragment;
+import com.example.mvvmdemo.gallery.fragment.PictureDescriptionFragment;
+import com.example.mvvmdemo.gallery.fragment.PictureListFragment;
 import com.example.mvvmdemo.util.AppConstants;
 import com.example.mvvmdemo.util.FragmentInserter;
 

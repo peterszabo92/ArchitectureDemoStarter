@@ -1,4 +1,4 @@
-package com.example.mvvmdemo.gallery.view;
+package com.example.mvvmdemo.gallery.fragment;
 
 import android.view.View;
 import android.widget.TextView;

@@ -13,7 +13,6 @@ public class BaseApplication extends Application {
 
     public static ImageLoader imageLoader;
 
-    private static DimensionUtil dimensionUtil;
     private AppComponent appComponent;
 
     @Override
@@ -21,7 +20,6 @@ public class BaseApplication extends Application {
         super.onCreate();
         imageLoader = new DefaultImageLoader(getApplicationContext());
         appComponent = initAppComponent();
-        dimensionUtil = new DimensionUtil(getApplicationContext());
     }
 
     public AppComponent getAppComponent() {
@@ -39,8 +37,5 @@ public class BaseApplication extends Application {
         return new AppModule(this);
     }
 
-    public static DimensionUtil getDimensionUtil() {
-        return dimensionUtil;
-    }
 }
 
