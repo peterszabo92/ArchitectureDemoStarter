@@ -1,15 +1,16 @@
 package com.example.mvvmdemo.gallery.viewmodel;
 
+import com.example.mvvmdemo.base.model.ListItem;
 import com.example.mvvmdemo.data.manager.ImageManager;
 import com.example.mvvmdemo.data.model.ImageModel;
+import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.model.PictureListItem;
-import com.example.mvvmdemo.base.model.ListItem;
 
 import java.util.List;
 
 import rx.Observable;
 
-public class PictureListViewModel {
+public class PictureListViewModel implements GalleryPageContract.PictureListViewModel {
 
     private ImageManager imageManager;
 
@@ -17,6 +18,7 @@ public class PictureListViewModel {
         this.imageManager = imageManager;
     }
 
+    @Override
     public Observable<List<ListItem>> getPictureItems() {
         return imageManager.getImageModels()
                 .flatMapIterable(list -> list)
@@ -24,6 +26,7 @@ public class PictureListViewModel {
                 .toList();
     }
 
+    @Override
     public void selectImage(ImageModel imageModel) {
         imageManager.setSelectedImageModel(imageModel);
     }

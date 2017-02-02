@@ -1,27 +1,27 @@
 package com.example.mvvmdemo.gallery;
 
-/**
- * Created by hipteampeter on 2017. 02. 01..
- */
+import com.example.mvvmdemo.base.model.ListItem;
+import com.example.mvvmdemo.base.model.ViewModel;
+import com.example.mvvmdemo.data.model.ImageModel;
+
+import java.util.List;
+
+import rx.Observable;
 
 public interface GalleryPageContract {
 
-    interface BigPictureView {
-
+    interface BigPictureViewModel extends ViewModel {
+        Observable<ImageModel> getSelectedImage();
     }
 
-    interface BigPictureViewModel {
+    interface PictureListViewModel extends ViewModel {
+        Observable<List<ListItem>> getPictureItems();
 
+        void selectImage(ImageModel imageModel);
     }
 
-
-
-    interface PictureListView {
-
-    }
-
-    interface PictureListViewModel {
-
+    interface PictureDescriptionViewModel extends ViewModel {
+        Observable<String> getImageDescription();
     }
 
 }

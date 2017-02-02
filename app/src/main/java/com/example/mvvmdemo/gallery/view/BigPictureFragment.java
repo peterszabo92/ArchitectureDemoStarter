@@ -6,23 +6,19 @@ import android.widget.ImageView;
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseFragment;
+import com.example.mvvmdemo.base.model.ViewModel;
+import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.viewmodel.BigPictureViewModel;
 
 import butterknife.BindView;
 
-public class BigPictureFragment extends BaseFragment {
+public class BigPictureFragment extends BaseFragment<GalleryPageContract.BigPictureViewModel> {
 
     @BindView(R.id.big_picture) ImageView bigPicture;
 
-    private BigPictureViewModel bigPictureViewModel;
-
     @Override
     protected void init(View view) {
-        bigPictureViewModel = new BigPictureViewModel(
-                ((BaseApplication) getActivity().getApplication()).getAppComponent().getImageManager()
-        );
-
-        bigPictureViewModel.getSelectedImage()
+        viewModel.getSelectedImage()
                 .subscribe(imageModel -> BaseApplication.imageLoader.loadSimpleImageFromUrl(
                         bigPicture, imageModel.imageUrl));
     }
@@ -31,5 +27,13 @@ public class BigPictureFragment extends BaseFragment {
     protected int getLayout() {
         return R.layout.fragment_big_picture;
     }
+
+    @Override
+    protected GalleryPageContract.BigPictureViewModel createViewModel() {
+        return new BigPictureViewModel(
+                ((BaseApplication) getActivity().getApplication()).getAppComponent().getImageManager()
+        );
+    }
+
 
 }
