@@ -1,4 +1,4 @@
-package com.example.mvvmdemo.data;
+package com.example.mvvmdemo.data.model;
 
 public class ImageModel {
 

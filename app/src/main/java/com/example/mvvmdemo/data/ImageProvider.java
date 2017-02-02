@@ -1,5 +1,6 @@
 package com.example.mvvmdemo.data;
 
+import com.example.mvvmdemo.data.model.ImageModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class ImageProvider {
     public static List<ImageModel> getImageModels() {
         List<ImageModel> imageModels = new ArrayList<>();
 
+        imageModels.add(new ImageModel("https://aos.iacpublishinglabs.com/question/aq/700px-394px/NULL_7480604e473d2524.jpg?domain=cx.aos.ask.com"));
         imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/79438-blue-world-map_nJEOoUQ.jpg"));
         imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/6768666-1080p-wallpapers.jpg"));
         imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/city_of_love-wallpaper-1366x768.jpg"));
