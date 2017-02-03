@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/big_picture"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.example.mvvmdemo.gallery.viewmodel.BigPictureViewModel"/>
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/big_picture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:imageUrl="@{viewmodel.selectedImageUrl}"/>
+
+    </FrameLayout>
+</layout>

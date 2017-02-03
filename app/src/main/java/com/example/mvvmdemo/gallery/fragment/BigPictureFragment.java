@@ -1,24 +1,28 @@
 package com.example.mvvmdemo.gallery.fragment;
 
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseViewModelFragment;
+import com.example.mvvmdemo.databinding.FragmentBigPictureBinding;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
+import com.example.mvvmdemo.gallery.viewmodel.BigPictureViewModel;
 
-import butterknife.BindView;
-
-public class BigPictureFragment extends BaseViewModelFragment<GalleryPageContract.BigPictureViewModel> {
-
-    @BindView(R.id.big_picture) ImageView bigPicture;
+public class BigPictureFragment extends BaseViewModelFragment<BigPictureViewModel> {
 
     @Override
     protected void init(View view) {
-        compositeSubscription.add(viewModel.getSelectedImage()
-                .subscribe(imageModel -> BaseApplication.imageLoader.loadSimpleImageFromUrl(
-                        bigPicture, imageModel.imageUrl)));
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FragmentBigPictureBinding pictureBinding = DataBindingUtil.bind(view);
+        pictureBinding.setViewmodel(viewModel);
     }
 
     @Override
@@ -27,7 +31,7 @@ public class BigPictureFragment extends BaseViewModelFragment<GalleryPageContrac
     }
 
     @Override
-    protected GalleryPageContract.BigPictureViewModel createViewModel() {
+    protected BigPictureViewModel createViewModel() {
         return ((BaseApplication) getActivity().getApplication()).getAppComponent().getBigPictureViewModel();
     }
 

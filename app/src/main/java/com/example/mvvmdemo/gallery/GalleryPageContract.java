@@ -1,5 +1,8 @@
 package com.example.mvvmdemo.gallery;
 
+import android.databinding.BindingAdapter;
+import android.widget.ImageView;
+
 import com.example.mvvmdemo.base.model.ListItem;
 import com.example.mvvmdemo.base.model.ViewModel;
 import com.example.mvvmdemo.data.model.ImageModel;
@@ -12,6 +15,7 @@ public interface GalleryPageContract {
 
     interface BigPictureViewModel extends ViewModel {
         Observable<ImageModel> getSelectedImage();
+        ImageModel getSelectedImageModel();
     }
 
     interface PictureListViewModel extends ViewModel {

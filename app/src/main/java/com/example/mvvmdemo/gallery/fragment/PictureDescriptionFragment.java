@@ -1,24 +1,27 @@
 package com.example.mvvmdemo.gallery.fragment;
 
+import android.databinding.DataBindingUtil;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseViewModelFragment;
-import com.example.mvvmdemo.gallery.GalleryPageContract;
+import com.example.mvvmdemo.databinding.FragmentPictureDescriptionBinding;
 import com.example.mvvmdemo.gallery.viewmodel.PictureDescriptionViewModel;
 
-import butterknife.BindView;
-
-public class PictureDescriptionFragment extends BaseViewModelFragment<GalleryPageContract.PictureDescriptionViewModel> {
-
-    @BindView(R.id.picture_description) TextView pictureDescription;
+public class PictureDescriptionFragment extends BaseViewModelFragment<PictureDescriptionViewModel> {
 
     @Override
     protected void init(View view) {
-        compositeSubscription.add(
-                viewModel.getImageDescription().subscribe(description -> pictureDescription.setText(description)));
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FragmentPictureDescriptionBinding pictureDescriptionBinding = DataBindingUtil.bind(view);
+        pictureDescriptionBinding.setViewmodel(viewModel);
     }
 
     @Override
@@ -27,7 +30,7 @@ public class PictureDescriptionFragment extends BaseViewModelFragment<GalleryPag
     }
 
     @Override
-    protected GalleryPageContract.PictureDescriptionViewModel createViewModel() {
+    protected PictureDescriptionViewModel createViewModel() {
         return new PictureDescriptionViewModel(
                 ((BaseApplication) getActivity().getApplication()).getAppComponent().getImageManager()
         );

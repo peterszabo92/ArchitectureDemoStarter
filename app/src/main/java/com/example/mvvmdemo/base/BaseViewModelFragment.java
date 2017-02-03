@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.example.mvvmdemo.base.model.ViewModel;
 
-public abstract class BaseViewModelFragment<VM extends ViewModel> extends BaseFragment {
+public abstract class BaseViewModelFragment<VM> extends BaseFragment {
 
     protected VM viewModel;
 

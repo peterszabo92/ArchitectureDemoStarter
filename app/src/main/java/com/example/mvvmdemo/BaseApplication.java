@@ -6,7 +6,6 @@ import com.example.mvvmdemo.component.AppComponent;
 import com.example.mvvmdemo.component.DaggerAppComponent;
 import com.example.mvvmdemo.modul.AppModule;
 import com.example.mvvmdemo.util.DefaultImageLoader;
-import com.example.mvvmdemo.util.DimensionUtil;
 import com.example.mvvmdemo.util.ImageLoader;
 
 public class BaseApplication extends Application {
