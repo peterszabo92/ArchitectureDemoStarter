@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
-import com.example.mvvmdemo.base.BaseFragment;
+import com.example.mvvmdemo.base.BaseViewModelFragment;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.adapter.PictureListAdapter;
 import com.example.mvvmdemo.gallery.adapter.SpacesItemDecoration;
@@ -16,12 +16,13 @@ import com.example.mvvmdemo.gallery.viewmodel.PictureListViewModel;
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class PictureListFragment extends BaseFragment<GalleryPageContract.PictureListViewModel> {
+public class PictureListFragment extends BaseViewModelFragment<GalleryPageContract.PictureListViewModel> {
 
     @BindView(R.id.picture_list)
     RecyclerView pictureList;
 
     private PictureListAdapter adapter;
+
 
     @Override
     protected void init(View view) {
@@ -30,14 +31,20 @@ public class PictureListFragment extends BaseFragment<GalleryPageContract.Pictur
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.picture_item_space);
         pictureList.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         pictureList.setAdapter(adapter);
+    }
 
-        viewModel.getPictureItems()
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Subscribe on picture items
+        compositeSubscription.add(viewModel.getPictureItems()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(adapter::setDataList);
+                .subscribe(adapter::setDataList));
 
-        adapter.getPositionClicks().subscribe(listItem -> {
+        // Subscribe on picture item click
+        compositeSubscription.add(adapter.getPositionClicks().subscribe(listItem -> {
             viewModel.selectImage(((PictureListItem) listItem).getData());
-        });
+        }));
     }
 
     @Override

@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mvvmdemo.base.model.ViewModel;
-
 import butterknife.ButterKnife;
+import rx.subscriptions.CompositeSubscription;
 
-public abstract class BaseFragment<VM extends ViewModel> extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
-    protected VM viewModel;
+    protected CompositeSubscription compositeSubscription;
 
     @Nullable
     @Override
@@ -25,14 +24,24 @@ public abstract class BaseFragment<VM extends ViewModel> extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        viewModel = createViewModel();
         init(view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        compositeSubscription = new CompositeSubscription();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        compositeSubscription.unsubscribe();
+        compositeSubscription.clear();
     }
 
     protected abstract void init(View view);
 
     protected abstract int getLayout();
-
-    protected abstract VM createViewModel();
 
 }

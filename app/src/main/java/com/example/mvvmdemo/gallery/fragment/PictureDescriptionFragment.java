@@ -5,19 +5,20 @@ import android.widget.TextView;
 
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
-import com.example.mvvmdemo.base.BaseFragment;
+import com.example.mvvmdemo.base.BaseViewModelFragment;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.viewmodel.PictureDescriptionViewModel;
 
 import butterknife.BindView;
 
-public class PictureDescriptionFragment extends BaseFragment<GalleryPageContract.PictureDescriptionViewModel> {
+public class PictureDescriptionFragment extends BaseViewModelFragment<GalleryPageContract.PictureDescriptionViewModel> {
 
     @BindView(R.id.picture_description) TextView pictureDescription;
 
     @Override
     protected void init(View view) {
-        viewModel.getImageDescription().subscribe(description -> pictureDescription.setText(description));
+        compositeSubscription.add(
+                viewModel.getImageDescription().subscribe(description -> pictureDescription.setText(description)));
     }
 
     @Override

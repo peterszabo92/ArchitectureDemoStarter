@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseFragment;
-import com.example.mvvmdemo.base.model.ViewModel;
 import com.example.mvvmdemo.gallery.fragment.BigPictureFragment;
 import com.example.mvvmdemo.gallery.fragment.PictureDescriptionFragment;
 import com.example.mvvmdemo.gallery.fragment.PictureListFragment;
@@ -41,11 +40,6 @@ public class GalleryFragment extends BaseFragment {
     @Override
     protected int getLayout() {
         return R.layout.fragment_gallery;
-    }
-
-    @Override
-    protected ViewModel createViewModel() {
-        return null;
     }
 
     private void loadSubPages() {
