@@ -5,6 +5,7 @@ import com.example.mvvmdemo.data.manager.ImageManager;
 import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.model.PictureListItem;
+import com.example.mvvmdemo.gallery.model.PictureListItemEpoxy;
 
 import java.util.List;
 
@@ -25,6 +26,14 @@ public class PictureListViewModel implements GalleryPageContract.PictureListView
                 .flatMapIterable(list -> list)
                 .map(PictureListItem::new)
                 .cast(ListItem.class)
+                .toList();
+    }
+
+    @Override
+    public Observable<List<PictureListItemEpoxy>> getPictureItemsEpoxy() {
+        return imageManager.getImageModels()
+                .flatMapIterable(list -> list)
+                .map(PictureListItemEpoxy::new)
                 .toList();
     }
 
