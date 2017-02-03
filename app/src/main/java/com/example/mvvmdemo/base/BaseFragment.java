@@ -12,7 +12,7 @@ import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseFragment extends Fragment {
 
-    protected CompositeSubscription compositeSubscription;
+    protected CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     @Nullable
     @Override
