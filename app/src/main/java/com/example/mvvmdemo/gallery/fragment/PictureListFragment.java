@@ -7,6 +7,7 @@ import android.view.View;
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseViewModelFragment;
+import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.adapter.PictureListAdapter;
 import com.example.mvvmdemo.gallery.adapter.PictureListAdapterEpoxy;
@@ -46,9 +47,13 @@ public class PictureListFragment extends BaseViewModelFragment<GalleryPageContra
                 .observeOn(AndroidSchedulers.mainThread())
 //              .subscribe(adapter::setDataList));
                 .subscribe(adapterEpoxy::setDataList));
+
         // Subscribe on picture item click
         compositeSubscription.add(adapter.getPositionClicks().subscribe(listItem -> {
             viewModel.selectImage(((PictureListItem) listItem).getData());
+        }));
+        compositeSubscription.add(adapterEpoxy.onItemClick().subscribe(imageModel -> {
+            viewModel.selectImage(imageModel);
         }));
     }
 

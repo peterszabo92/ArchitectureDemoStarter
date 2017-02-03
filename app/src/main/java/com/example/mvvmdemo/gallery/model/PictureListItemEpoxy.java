@@ -14,6 +14,10 @@ public class PictureListItemEpoxy extends EpoxyModelWithHolder<PictureListItemHo
         this.imageModel = imageModel;
     }
 
+    public ImageModel getImageModel() {
+        return imageModel;
+    }
+
     @Override
     protected int getDefaultLayout() {
         return R.layout.item_picture_list;
