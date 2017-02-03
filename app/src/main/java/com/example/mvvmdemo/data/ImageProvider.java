@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ImageProvider {
 
-    public static List<ImageModel> getImageModels() {
+    public List<ImageModel> getImageModels() {
         List<ImageModel> imageModels = new ArrayList<>();
 
         imageModels.add(new ImageModel("https://aos.iacpublishinglabs.com/question/aq/700px-394px/NULL_7480604e473d2524.jpg?domain=cx.aos.ask.com"));

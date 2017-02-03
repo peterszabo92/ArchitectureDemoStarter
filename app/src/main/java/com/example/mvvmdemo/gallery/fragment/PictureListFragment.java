@@ -14,6 +14,7 @@ import com.example.mvvmdemo.gallery.model.PictureListItem;
 import com.example.mvvmdemo.gallery.viewmodel.PictureListViewModel;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class PictureListFragment extends BaseFragment<GalleryPageContract.PictureListViewModel> {
 
@@ -31,6 +32,7 @@ public class PictureListFragment extends BaseFragment<GalleryPageContract.Pictur
         pictureList.setAdapter(adapter);
 
         viewModel.getPictureItems()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(adapter::setDataList);
 
         adapter.getPositionClicks().subscribe(listItem -> {

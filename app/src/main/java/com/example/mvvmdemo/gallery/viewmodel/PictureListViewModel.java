@@ -9,6 +9,7 @@ import com.example.mvvmdemo.gallery.model.PictureListItem;
 import java.util.List;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class PictureListViewModel implements GalleryPageContract.PictureListViewModel {
 
