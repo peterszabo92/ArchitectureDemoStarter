@@ -20,7 +20,7 @@ public class PictureListItem extends ListItem<ImageModel> {
 
     @Override
     public int getLayout() {
-        return R.layout.item_picture_list;
+        return R.layout.item_picture_list_databinding;
     }
 
 }

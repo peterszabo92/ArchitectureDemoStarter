@@ -12,7 +12,7 @@ import java.util.List;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
-public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private final PublishSubject<ListItem> onClickSubject = PublishSubject.create();
     public ImageLoader imageLoader;
@@ -20,7 +20,7 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     protected List<ListItem> dataList = Collections.emptyList();
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(VH holder, int position) {
         holder.itemView.setOnClickListener(v -> onClickSubject.onNext(dataList.get(position)));
     }
 
