@@ -2,8 +2,8 @@ package com.example.mvvmdemo.gallery.util;
 
 import android.support.v7.util.DiffUtil;
 
-import com.example.mvvmdemo.gallery.model.PictureListItem;
 import com.example.mvvmdemo.base.model.ListItem;
+import com.example.mvvmdemo.gallery.model.PictureListItem;
 
 import java.util.List;
 
@@ -30,13 +30,13 @@ public class PictureListDiffUtilCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return ((PictureListItem) oldList.get(oldItemPosition)).getData().imageUrl.equals(
-                ((PictureListItem) newList.get(newItemPosition)).getData().imageUrl);
+        return ((PictureListItem) oldList.get(oldItemPosition)).getData().getImageUrl().equals(
+                ((PictureListItem) newList.get(newItemPosition)).getData().getImageUrl());
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return ((PictureListItem) oldList.get(oldItemPosition)).getData().imageUrl.equals(
-                ((PictureListItem) newList.get(newItemPosition)).getData().imageUrl);
+        return ((PictureListItem) oldList.get(oldItemPosition)).getData().getImageUrl().equals(
+                ((PictureListItem) newList.get(newItemPosition)).getData().getImageUrl());
     }
 }

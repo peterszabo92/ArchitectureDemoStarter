@@ -16,6 +16,6 @@ public class PictureDescriptionViewModel implements GalleryPageContract.PictureD
 
     @Override
     public Observable<String> getImageDescription() {
-        return imageManager.getSelectedImageModel().flatMap(imageModel -> Observable.just(imageModel.imageUrl));
+        return imageManager.getSelectedImageModel().flatMap(imageModel -> Observable.just(imageModel.getImageUrl()));
     }
 }

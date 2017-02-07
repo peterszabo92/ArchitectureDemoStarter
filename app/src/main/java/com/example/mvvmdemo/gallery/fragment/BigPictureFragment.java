@@ -18,7 +18,7 @@ public class BigPictureFragment extends BaseViewModelFragment<GalleryPageContrac
     protected void init(View view) {
         compositeSubscription.add(viewModel.getSelectedImage()
                 .subscribe(imageModel -> BaseApplication.imageLoader.loadSimpleImageFromUrl(
-                        bigPicture, imageModel.imageUrl)));
+                        bigPicture, imageModel.getImageUrl())));
     }
 
     @Override

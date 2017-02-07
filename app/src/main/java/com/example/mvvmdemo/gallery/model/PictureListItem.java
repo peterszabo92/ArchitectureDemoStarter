@@ -15,7 +15,7 @@ public class PictureListItem extends ListItem<ImageModel> {
 
     @Override
     public void bind(RecyclerView.ViewHolder viewHolder, int position) {
-        ((PictureListItemHolder) viewHolder).update(getData().imageUrl);
+        ((PictureListItemHolder) viewHolder).update(getData());
     }
 
     @Override

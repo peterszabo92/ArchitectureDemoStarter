@@ -1,26 +1,78 @@
 package com.example.mvvmdemo.data;
 
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.example.mvvmdemo.BuildConfig;
 import com.example.mvvmdemo.data.model.ImageModel;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import rx.Observable;
+
 public class ImageProvider {
 
-    public List<ImageModel> getImageModels() {
-        List<ImageModel> imageModels = new ArrayList<>();
+    private static final String BASE_URL = "https://www.dropbox.com/";
 
-        imageModels.add(new ImageModel("https://aos.iacpublishinglabs.com/question/aq/700px-394px/NULL_7480604e473d2524.jpg?domain=cx.aos.ask.com"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/79438-blue-world-map_nJEOoUQ.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/6768666-1080p-wallpapers.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/city_of_love-wallpaper-1366x768.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/beach-cool-wallpaper-hd_1.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/1926935_55L0dcb.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/lamborghini_murcielago_superveloce_2-2880x1800.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/1884176_RLGXZxk.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/canada-winter-moraine-lake-alberta-hd-high-511002.jpg"));
-        imageModels.add(new ImageModel("http://www.planwallpaper.com/static/images/cool-wallpapers-hd-8087-8418-hd-wallpapers.jpg"));
+    public final ApiService apiService;
 
-        return imageModels;
+    public ImageProvider() {
+        apiService = getRetrofit(getOkHttpClient(), getGsonConverterFactory()).create(ApiService.class);
+    }
+
+    @NonNull
+    private Retrofit getRetrofit(OkHttpClient okHttpClient, GsonConverterFactory gsonConverterFactory) {
+        return new Retrofit.Builder()
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(gsonConverterFactory)
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .build();
+    }
+
+    @NonNull
+    private GsonConverterFactory getGsonConverterFactory() {
+        return GsonConverterFactory.create(new Gson());
+    }
+
+    @NonNull
+    private OkHttpClient getOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(getLoggingInterceptor());
+        }
+        return builder.build();
+    }
+
+    private Interceptor getLoggingInterceptor() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return loggingInterceptor;
+    }
+
+
+    public Observable<List<ImageModel>> getImageModels() {
+        return apiService.getImages().flatMap(imageModelResponse -> {
+            Log.wtf("TAG", String.valueOf(imageModelResponse.code()));
+            return Observable.just(imageModelResponse.body());
+        });
+    }
+
+    private interface ApiService {
+
+        @GET("s/00vvnrfrfvl6euk/image_demo.json?dl=1")
+        Observable<Response<List<ImageModel>>> getImages();
+
     }
 
 }

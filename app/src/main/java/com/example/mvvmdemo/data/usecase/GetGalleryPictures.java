@@ -21,6 +21,6 @@ public class GetGalleryPictures extends Usecase<List<ImageModel>> {
 
     @Override
     public Observable<List<ImageModel>> execute() {
-        return Observable.just(imageProvider.getImageModels());
+        return imageProvider.getImageModels();
     }
 }
