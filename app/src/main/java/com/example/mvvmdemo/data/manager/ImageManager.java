@@ -8,7 +8,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 
@@ -17,23 +16,23 @@ public class ImageManager {
     private GetGalleryPictures getGalleryPictures;
 
     private PublishSubject<ImageModel> selectedImageModelObservable = PublishSubject.create();
+    private PublishSubject<List<ImageModel>> currentImageModelListObservable = PublishSubject.create();
     private ImageModel selectedImageModel;
+    private List<ImageModel> currentImageModelList;
 
     @Inject
     public ImageManager(GetGalleryPictures getGalleryPictures) {
         this.getGalleryPictures = getGalleryPictures;
     }
 
-    public Observable<List<ImageModel>> getImageModels() {
-        return getGalleryPictures.execute()
+    private void getImageModels() {
+        getGalleryPictures.execute()
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap(imageModels -> {
-                    if (selectedImageModel == null && imageModels.size() > 0) {
-                        selectedImageModel = imageModels.get(0);
-                        notifySelectedImageModelChanged();
-                    }
-                    return Observable.just(imageModels);
+                .subscribe(imageModels -> {
+                    currentImageModelList = imageModels;
+                    selectedImageModel = imageModels.get(0);
+                    notifySelectedImageModelChanged();
+                    notifyCurrentImageModelListChanged();
                 });
     }
 
@@ -41,9 +40,21 @@ public class ImageManager {
         return selectedImageModelObservable;
     }
 
+    public Observable<List<ImageModel>> getCurrentImageModelList() {
+        if (currentImageModelList == null) {
+            getImageModels();
+        }
+        return currentImageModelListObservable;
+    }
+
     public void setSelectedImageModel(ImageModel imageModel) {
         selectedImageModel = imageModel;
         notifySelectedImageModelChanged();
+    }
+
+    private void notifyCurrentImageModelListChanged() {
+        currentImageModelListObservable.onNext(currentImageModelList);
+        currentImageModelListObservable.onCompleted();
     }
 
     private void notifySelectedImageModelChanged() {

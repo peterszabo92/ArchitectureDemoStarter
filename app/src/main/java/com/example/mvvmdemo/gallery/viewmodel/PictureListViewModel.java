@@ -10,6 +10,8 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 public class PictureListViewModel implements GalleryPageContract.PictureListViewModel {
 
@@ -21,11 +23,15 @@ public class PictureListViewModel implements GalleryPageContract.PictureListView
 
     @Override
     public Observable<List<ListItem>> getPictureItems() {
-        return imageManager.getImageModels()
+        return imageManager.getCurrentImageModelList()
                 .flatMapIterable(list -> list)
                 .map(PictureListItem::new)
                 .cast(ListItem.class)
                 .toList();
+    }
+
+    public Observable<List<ImageModel>> test() {
+        return imageManager.getCurrentImageModelList();
     }
 
     @Override

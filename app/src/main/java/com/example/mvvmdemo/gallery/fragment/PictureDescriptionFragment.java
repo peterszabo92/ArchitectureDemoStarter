@@ -10,6 +10,7 @@ import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.viewmodel.PictureDescriptionViewModel;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class PictureDescriptionFragment extends BaseViewModelFragment<GalleryPageContract.PictureDescriptionViewModel> {
 
@@ -18,7 +19,9 @@ public class PictureDescriptionFragment extends BaseViewModelFragment<GalleryPag
     @Override
     protected void init(View view) {
         compositeSubscription.add(
-                viewModel.getImageDescription().subscribe(description -> pictureDescription.setText(description)));
+                viewModel.getImageDescription()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(description -> pictureDescription.setText(description)));
     }
 
     @Override
