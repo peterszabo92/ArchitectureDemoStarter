@@ -2,6 +2,7 @@ package com.example.mvvmdemo.data.manager;
 
 import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.data.usecase.GetGalleryPictures;
+import com.example.mvvmdemo.util.Logs;
 
 import java.util.List;
 
@@ -10,7 +11,6 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
-import rx.subjects.PublishSubject;
 
 public class ImageManager {
 
@@ -26,7 +26,8 @@ public class ImageManager {
         this.getGalleryPictures = getGalleryPictures;
     }
 
-    private void getImageModels() {
+    public void getImageModels() {
+        Logs.d("ImageManage.getImageModels");
         getGalleryPictures.execute()
                 .subscribeOn(Schedulers.io())
                 .subscribe(imageModels -> {
@@ -34,11 +35,16 @@ public class ImageManager {
                     selectedImageModel = imageModels.get(0);
                     notifySelectedImageModelChanged();
                     notifyCurrentImageModelListChanged();
-                });
+                }, currentImageModelListObservable::onError);
     }
 
     public Observable<ImageModel> getSelectedImageModel() {
         return selectedImageModelObservable;
+    }
+
+    public void setSelectedImageModel(ImageModel imageModel) {
+        selectedImageModel = imageModel;
+        notifySelectedImageModelChanged();
     }
 
     public Observable<List<ImageModel>> getCurrentImageModelList() {
@@ -46,11 +52,6 @@ public class ImageManager {
             getImageModels();
         }
         return currentImageModelListObservable;
-    }
-
-    public void setSelectedImageModel(ImageModel imageModel) {
-        selectedImageModel = imageModel;
-        notifySelectedImageModelChanged();
     }
 
     private void notifyCurrentImageModelListChanged() {

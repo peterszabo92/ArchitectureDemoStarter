@@ -64,6 +64,7 @@ public class ImageProvider {
     public Observable<List<ImageModel>> getImageModels() {
         return apiService.getImages().flatMap(imageModelResponse -> {
             Log.wtf("TAG", String.valueOf(imageModelResponse.code()));
+//            imageModelResponse = null;
             return Observable.just(imageModelResponse.body());
         });
     }

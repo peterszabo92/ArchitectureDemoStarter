@@ -7,10 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mvvmdemo.R;
+import com.example.mvvmdemo.base.view.StateLayout;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseFragment extends Fragment {
+
+    @Nullable @BindView(R.id.state_layout) protected StateLayout stateLayout;
 
     protected CompositeSubscription compositeSubscription = new CompositeSubscription();
 
@@ -44,4 +50,11 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayout();
 
+    @Nullable
+    public StateLayout getStateLayout() {
+        if (getParentFragment() != null && ((BaseFragment)getParentFragment()).getStateLayout() != null) {
+            return ((BaseFragment)getParentFragment()).getStateLayout();
+        }
+        return stateLayout;
+    }
 }

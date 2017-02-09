@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.mvvmdemo.base.view.StateLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/state_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:background="#efefef"
-    android:weightSum="1">
+    app:error_text="@string/image_list_loading_error"
+    app:empty_text="@string/image_list_no_content">
+    <!--app:empty_view_layout="@layout/layout_state_layout_custom_empty_view">-->
+    <!--app:error_view_layout="@layout/layout_state_layout_custom_error_view">-->
+    <!--app:loading_view_layout="@layout/layout_state_layout_custom_loading_view">-->
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".6"
-        android:orientation="vertical">
+        android:background="#efefef"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".6"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/main_container"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"/>
+
+            <FrameLayout
+                android:id="@+id/desc_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+        </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/main_container"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
-
-        <FrameLayout
-            android:id="@+id/desc_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:id="@+id/side_container"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".4"/>
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/side_container"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight=".4" />
-
-</LinearLayout>
+</com.example.mvvmdemo.base.view.StateLayout>
