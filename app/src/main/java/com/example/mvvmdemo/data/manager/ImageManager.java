@@ -9,14 +9,15 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;
+import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 public class ImageManager {
 
     private GetGalleryPictures getGalleryPictures;
 
-    private PublishSubject<ImageModel> selectedImageModelObservable = PublishSubject.create();
-    private PublishSubject<List<ImageModel>> currentImageModelListObservable = PublishSubject.create();
+    private BehaviorSubject<ImageModel> selectedImageModelObservable = BehaviorSubject.create();
+    private BehaviorSubject<List<ImageModel>> currentImageModelListObservable = BehaviorSubject.create();
     private ImageModel selectedImageModel;
     private List<ImageModel> currentImageModelList;
 
