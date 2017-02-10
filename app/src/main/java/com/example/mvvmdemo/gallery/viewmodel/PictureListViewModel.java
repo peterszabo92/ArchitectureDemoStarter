@@ -1,7 +1,7 @@
 package com.example.mvvmdemo.gallery.viewmodel;
 
 import com.example.mvvmdemo.base.model.ListItem;
-import com.example.mvvmdemo.data.manager.ImageManager;
+import com.example.mvvmdemo.data.datacontroller.ImageDataController;
 import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.model.PictureListItem;
@@ -9,21 +9,18 @@ import com.example.mvvmdemo.gallery.model.PictureListItem;
 import java.util.List;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 public class PictureListViewModel implements GalleryPageContract.PictureListViewModel {
 
-    private ImageManager imageManager;
+    private ImageDataController imageDataController;
 
-    public PictureListViewModel(ImageManager imageManager) {
-        this.imageManager = imageManager;
+    public PictureListViewModel(ImageDataController imageDataController) {
+        this.imageDataController = imageDataController;
     }
 
     @Override
     public Observable<List<ListItem>> getPictureItems() {
-        return imageManager.getCurrentImageModelList()
+        return imageDataController.getCurrentImageModelList()
                 .flatMapIterable(list -> list)
                 .map(PictureListItem::new)
                 .cast(ListItem.class)
@@ -31,12 +28,12 @@ public class PictureListViewModel implements GalleryPageContract.PictureListView
     }
 
     public Observable<List<ImageModel>> test() {
-        return imageManager.getCurrentImageModelList();
+        return imageDataController.getCurrentImageModelList();
     }
 
     @Override
     public void selectImage(ImageModel imageModel) {
-        imageManager.setSelectedImageModel(imageModel);
+        imageDataController.setSelectedImageModel(imageModel);
     }
 
 }

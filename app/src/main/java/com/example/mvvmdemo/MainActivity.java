@@ -1,24 +1,41 @@
 package com.example.mvvmdemo;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Gallery;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 
+import com.example.mvvmdemo.data.datacontroller.ImageDataController;
 import com.example.mvvmdemo.gallery.GalleryFragment;
 import com.example.mvvmdemo.util.FragmentInserter;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity {
 
     private FragmentInserter fragmentInserter;
+
+    @Inject
+    ImageDataController imageDataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentInserter = new FragmentInserter(getSupportFragmentManager());
+        ((BaseApplication) getApplication()).getAppComponent().inject(this);
         loadGalleryFragment();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        imageDataController.init();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        imageDataController.clearData();
     }
 
     private void loadGalleryFragment() {

@@ -1,6 +1,6 @@
 package com.example.mvvmdemo.gallery.viewmodel;
 
-import com.example.mvvmdemo.data.manager.ImageManager;
+import com.example.mvvmdemo.data.datacontroller.ImageDataController;
 import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 
@@ -10,15 +10,15 @@ import rx.Observable;
 
 public class BigPictureViewModel implements GalleryPageContract.BigPictureViewModel {
 
-    private ImageManager imageManager;
+    private ImageDataController imageDataController;
 
     @Inject
-    public BigPictureViewModel(ImageManager imageManager) {
-        this.imageManager = imageManager;
+    public BigPictureViewModel(ImageDataController imageDataController) {
+        this.imageDataController = imageDataController;
     }
 
     @Override
     public Observable<ImageModel> getSelectedImage() {
-        return imageManager.getSelectedImageModel();
+        return imageDataController.getSelectedImageModel();
     }
 }
