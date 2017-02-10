@@ -1,5 +1,6 @@
-package com.example.mvvmdemo.data.manager;
+package com.example.mvvmdemo.data.datacontroller;
 
+import com.example.mvvmdemo.base.datacontroller.DataController;
 import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.data.usecase.GetGalleryPictures;
 import com.example.mvvmdemo.util.Logs;
@@ -12,7 +13,7 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
-public class ImageManager {
+public class ImageDataController implements DataController {
 
     private GetGalleryPictures getGalleryPictures;
 
@@ -22,7 +23,7 @@ public class ImageManager {
     private List<ImageModel> currentImageModelList;
 
     @Inject
-    public ImageManager(GetGalleryPictures getGalleryPictures) {
+    public ImageDataController(GetGalleryPictures getGalleryPictures) {
         this.getGalleryPictures = getGalleryPictures;
     }
 
@@ -32,7 +33,9 @@ public class ImageManager {
                 .subscribeOn(Schedulers.io())
                 .subscribe(imageModels -> {
                     currentImageModelList = imageModels;
-                    selectedImageModel = imageModels.get(0);
+                    if (selectedImageModel == null) {
+                        selectedImageModel = imageModels.get(0);
+                    }
                     notifySelectedImageModelChanged();
                     notifyCurrentImageModelListChanged();
                 }, currentImageModelListObservable::onError);
@@ -63,4 +66,14 @@ public class ImageManager {
         selectedImageModelObservable.onNext(selectedImageModel);
     }
 
+    @Override
+    public void init() {
+        currentImageModelListObservable = BehaviorSubject.create();
+    }
+
+    @Override
+    public void clearData() {
+        currentImageModelList.clear();
+        currentImageModelList = null;
+    }
 }

@@ -1,21 +1,21 @@
 package com.example.mvvmdemo.gallery.viewmodel;
 
 
-import com.example.mvvmdemo.data.manager.ImageManager;
+import com.example.mvvmdemo.data.datacontroller.ImageDataController;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 
 import rx.Observable;
 
 public class PictureDescriptionViewModel implements GalleryPageContract.PictureDescriptionViewModel {
 
-    private ImageManager imageManager;
+    private ImageDataController imageDataController;
 
-    public PictureDescriptionViewModel(ImageManager imageManager) {
-        this.imageManager = imageManager;
+    public PictureDescriptionViewModel(ImageDataController imageDataController) {
+        this.imageDataController = imageDataController;
     }
 
     @Override
     public Observable<String> getImageDescription() {
-        return imageManager.getSelectedImageModel().flatMap(imageModel -> Observable.just(imageModel.getImageUrl()));
+        return imageDataController.getSelectedImageModel().flatMap(imageModel -> Observable.just(imageModel.getImageUrl()));
     }
 }
