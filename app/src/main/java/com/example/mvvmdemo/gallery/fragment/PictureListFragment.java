@@ -1,8 +1,10 @@
 package com.example.mvvmdemo.gallery.fragment;
 
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
@@ -18,6 +20,8 @@ import com.example.mvvmdemo.util.Logs;
 
 import butterknife.BindView;
 import rx.android.schedulers.AndroidSchedulers;
+
+
 
 public class PictureListFragment extends BaseViewModelFragment<GalleryPageContract.PictureListViewModel>   {
 
@@ -49,6 +53,14 @@ public class PictureListFragment extends BaseViewModelFragment<GalleryPageContra
         compositeSubscription.add(adapter.getPositionClicks().subscribe(listItem -> {
             viewModel.selectImage(((PictureListItem) listItem).getData());
         }));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ((BaseApplication) getActivity().getApplication()).getAppComponent().getImageManager().getImageModels();
+                Toast.makeText(getContext(), "Most", Toast.LENGTH_SHORT).show();
+            }
+        }, 5000);
     }
 
     @Override

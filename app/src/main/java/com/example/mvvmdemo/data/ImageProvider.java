@@ -8,6 +8,8 @@ import com.example.mvvmdemo.data.model.ImageModel;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -65,6 +67,7 @@ public class ImageProvider {
         return apiService.getImages().flatMap(imageModelResponse -> {
             Log.wtf("TAG", String.valueOf(imageModelResponse.code()));
 //            imageModelResponse = null;
+            Collections.shuffle(imageModelResponse.body());
             return Observable.just(imageModelResponse.body());
         });
     }
