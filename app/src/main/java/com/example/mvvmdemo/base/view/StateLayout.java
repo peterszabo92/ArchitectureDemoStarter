@@ -1,5 +1,6 @@
 package com.example.mvvmdemo.base.view;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -70,7 +71,9 @@ public class StateLayout extends FrameLayout {
         hideLoading();
         hideError();
         hideEmpty();
+        contentView.setAlpha(0f);
         contentView.setVisibility(VISIBLE);
+        contentView.animate().alpha(1f).setDuration(1000).start();
     }
 
     public void hideContent() {
@@ -91,8 +94,28 @@ public class StateLayout extends FrameLayout {
 
     public void hideLoading() {
         if (loadingView != null) {
-            removeView(loadingView);
-            loadingView = null;
+            loadingView.animate().alpha(0f).setDuration(500).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    removeView(loadingView);
+                    loadingView = null;
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            }).start();
         }
     }
 

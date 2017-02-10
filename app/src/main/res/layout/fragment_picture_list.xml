@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.mvvmdemo.base.view.StateLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/state_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    app:error_text="@string/image_list_loading_error"
+    app:empty_text="@string/image_list_no_content">
+    <!--app:empty_view_layout="@layout/layout_state_layout_custom_empty_view">-->
+    <!--app:error_view_layout="@layout/layout_state_layout_custom_error_view">-->
+    <!--app:loading_view_layout="@layout/layout_state_layout_custom_loading_view">-->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/picture_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-</FrameLayout>
+</com.example.mvvmdemo.base.view.StateLayout>

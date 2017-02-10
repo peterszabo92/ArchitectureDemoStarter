@@ -17,11 +17,13 @@ public class DefaultRxComposer implements RxComposer  {
     private boolean wasError = false;
 
     @Override
-    public <T> Observable.Transformer<T, T> setStateLayout(@NonNull StateLayout stateLayout, @NonNull DataChecker dataChecker) {
+    public <T> Observable.Transformer<T, T> setStateLayout(StateLayout stateLayout, @NonNull DataChecker dataChecker) {
         return observable -> observable
                 .doOnSubscribe(() -> {
                     Logs.d("Start");
-                    stateLayout.showLoading();
+                    if (stateLayout != null) {
+                        stateLayout.showLoading();
+                    }
                 })
                 .doOnError(throwable -> {
                     wasError = true;
@@ -30,12 +32,14 @@ public class DefaultRxComposer implements RxComposer  {
                 .doOnTerminate(new Action0() {
                     @Override
                     public void call() {
-                        if (wasError) {
-                            stateLayout.showError();
-                        } else if (dataChecker.hasContent()) {
-                            stateLayout.showContent();
-                        } else {
-                            stateLayout.showEmpty();
+                        if (stateLayout != null) {
+                            if (wasError) {
+                                stateLayout.showError();
+                            } else if (dataChecker.hasContent()) {
+                                stateLayout.showContent();
+                            } else {
+                                stateLayout.showEmpty();
+                            }
                         }
                         Logs.d("Action end!  wasError: " + wasError + " - hasContent: " + dataChecker.hasContent());
                     }
