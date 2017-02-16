@@ -9,21 +9,18 @@ import android.widget.Toast;
 import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.base.BaseViewModelFragment;
-import com.example.mvvmdemo.data.DataChecker;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.adapter.PictureListAdapter;
 import com.example.mvvmdemo.gallery.adapter.SpacesItemDecoration;
 import com.example.mvvmdemo.gallery.model.PictureListItem;
-import com.example.mvvmdemo.gallery.util.DefaultRxComposer;
 import com.example.mvvmdemo.gallery.viewmodel.PictureListViewModel;
 import com.example.mvvmdemo.util.Logs;
 
 import butterknife.BindView;
-import rx.android.schedulers.AndroidSchedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
-
-public class PictureListFragment extends BaseViewModelFragment<GalleryPageContract.PictureListViewModel>   {
+public class PictureListFragment extends BaseViewModelFragment<GalleryPageContract.PictureListViewModel> {
 
     @BindView(R.id.picture_list)
     RecyclerView pictureList;
@@ -44,13 +41,13 @@ public class PictureListFragment extends BaseViewModelFragment<GalleryPageContra
     public void onResume() {
         super.onResume();
         // Subscribe on picture items
-        compositeSubscription.add(viewModel.getPictureItems()
+        compositeDisposable.add(viewModel.getPictureItems()
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(new DefaultRxComposer().setStateLayout(getStateLayout(), () -> adapter.getItemCount() > 0))
+                //.compose(new DefaultRxComposer().setStateLayout(getStateLayout(), () -> adapter.getItemCount() > 0))
                 .subscribe(adapter::setDataList, Logs::s));
 
         // Subscribe on picture item click
-        compositeSubscription.add(adapter.getPositionClicks().subscribe(listItem -> {
+        compositeDisposable.add(adapter.getPositionClicks().subscribe(listItem -> {
             viewModel.selectImage(((PictureListItem) listItem).getData());
         }));
 

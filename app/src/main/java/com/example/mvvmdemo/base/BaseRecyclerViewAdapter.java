@@ -9,8 +9,9 @@ import com.example.mvvmdemo.util.ImageLoader;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+
 
 public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -30,6 +31,6 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
     }
 
     public Observable<ListItem> getPositionClicks() {
-        return onClickSubject.asObservable();
+        return onClickSubject;
     }
 }

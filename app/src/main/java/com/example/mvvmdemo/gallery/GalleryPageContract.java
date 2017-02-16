@@ -6,7 +6,8 @@ import com.example.mvvmdemo.data.model.ImageModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public interface GalleryPageContract {
 

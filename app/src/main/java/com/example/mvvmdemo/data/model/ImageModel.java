@@ -1,9 +1,11 @@
 package com.example.mvvmdemo.data.model;
 
+import android.support.annotation.NonNull;
+
 public class ImageModel {
 
-    private String name;
-    private String imageUrl;
+    @NonNull private String name;
+    @NonNull private String imageUrl;
 
     public ImageModel(String name, String imageUrl) {
         this.name = name;

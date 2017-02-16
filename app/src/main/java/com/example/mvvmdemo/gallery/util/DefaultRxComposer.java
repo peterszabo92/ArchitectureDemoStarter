@@ -1,8 +1,6 @@
 package com.example.mvvmdemo.gallery.util;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.mvvmdemo.base.view.StateLayout;
 import com.example.mvvmdemo.data.DataChecker;
@@ -10,9 +8,9 @@ import com.example.mvvmdemo.util.Logs;
 
 import rx.Observable;
 import rx.functions.Action0;
-import rx.functions.Action1;
 
-public class DefaultRxComposer implements RxComposer  {
+
+public class DefaultRxComposer implements RxComposer {
 
     private boolean wasError = false;
 

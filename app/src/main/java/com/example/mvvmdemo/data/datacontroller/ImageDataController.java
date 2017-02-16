@@ -2,6 +2,7 @@ package com.example.mvvmdemo.data.datacontroller;
 
 import com.example.mvvmdemo.base.datacontroller.DataController;
 import com.example.mvvmdemo.data.model.ImageModel;
+import com.example.mvvmdemo.data.observable.ObservableValue;
 import com.example.mvvmdemo.data.usecase.GetGalleryPictures;
 import com.example.mvvmdemo.util.Logs;
 
@@ -9,22 +10,23 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Observable;
 import rx.schedulers.Schedulers;
-import rx.subjects.BehaviorSubject;
 
 public class ImageDataController implements DataController {
 
     private GetGalleryPictures getGalleryPictures;
 
-    private BehaviorSubject<ImageModel> selectedImageModelObservable = BehaviorSubject.create();
-    private BehaviorSubject<List<ImageModel>> currentImageModelListObservable = BehaviorSubject.create();
-    private ImageModel selectedImageModel;
-    private List<ImageModel> currentImageModelList;
+    private ObservableValue<List<ImageModel>> currentImageModelList;
+    private ObservableValue<ImageModel> selectedImageModel;
+    private ObservableValue<Throwable> errorObservable;
 
     @Inject
     public ImageDataController(GetGalleryPictures getGalleryPictures) {
         this.getGalleryPictures = getGalleryPictures;
+        currentImageModelList = new ObservableValue<>();
+        selectedImageModel = new ObservableValue<>();
+        errorObservable = new ObservableValue<>();
     }
 
     public void getImageModels() {
@@ -32,48 +34,29 @@ public class ImageDataController implements DataController {
         getGalleryPictures.execute()
                 .subscribeOn(Schedulers.io())
                 .subscribe(imageModels -> {
-                    currentImageModelList = imageModels;
-                    if (selectedImageModel == null) {
-                        selectedImageModel = imageModels.get(0);
+                    currentImageModelList.setValue(imageModels);
+                    if (selectedImageModel.getValue() == null) {
+                        selectedImageModel.setValue(imageModels.get(0));
                     }
-                    notifySelectedImageModelChanged();
-                    notifyCurrentImageModelListChanged();
-                }, currentImageModelListObservable::onError);
+                }, errorObservable::setValue);
+    }
+
+    public Observable<Throwable> getErrors() {
+        return errorObservable.getObservable();
     }
 
     public Observable<ImageModel> getSelectedImageModel() {
-        return selectedImageModelObservable;
+        return selectedImageModel.getObservable();
     }
 
     public void setSelectedImageModel(ImageModel imageModel) {
-        selectedImageModel = imageModel;
-        notifySelectedImageModelChanged();
+        selectedImageModel.setValue(imageModel);
     }
 
     public Observable<List<ImageModel>> getCurrentImageModelList() {
         if (currentImageModelList == null) {
             getImageModels();
         }
-        return currentImageModelListObservable;
-    }
-
-    private void notifyCurrentImageModelListChanged() {
-        currentImageModelListObservable.onNext(currentImageModelList);
-        currentImageModelListObservable.onCompleted();
-    }
-
-    private void notifySelectedImageModelChanged() {
-        selectedImageModelObservable.onNext(selectedImageModel);
-    }
-
-    @Override
-    public void init() {
-        currentImageModelListObservable = BehaviorSubject.create();
-    }
-
-    @Override
-    public void clearData() {
-        currentImageModelList.clear();
-        currentImageModelList = null;
+        return currentImageModelList.getObservable();
     }
 }

@@ -4,7 +4,8 @@ package com.example.mvvmdemo.gallery.viewmodel;
 import com.example.mvvmdemo.data.datacontroller.ImageDataController;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public class PictureDescriptionViewModel implements GalleryPageContract.PictureDescriptionViewModel {
 
@@ -16,6 +17,7 @@ public class PictureDescriptionViewModel implements GalleryPageContract.PictureD
 
     @Override
     public Observable<String> getImageDescription() {
-        return imageDataController.getSelectedImageModel().flatMap(imageModel -> Observable.just(imageModel.getImageUrl()));
+        return imageDataController.getSelectedImageModel().flatMap(
+                imageModel -> Observable.just(imageModel.getImageUrl()));
     }
 }

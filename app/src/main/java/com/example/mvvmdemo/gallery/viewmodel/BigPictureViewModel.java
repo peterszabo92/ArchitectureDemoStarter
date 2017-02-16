@@ -6,7 +6,8 @@ import com.example.mvvmdemo.gallery.GalleryPageContract;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public class BigPictureViewModel implements GalleryPageContract.BigPictureViewModel {
 

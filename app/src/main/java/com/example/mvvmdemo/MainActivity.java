@@ -26,18 +26,6 @@ public class MainActivity extends AppCompatActivity {
         loadGalleryFragment();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        imageDataController.init();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        imageDataController.clearData();
-    }
-
     private void loadGalleryFragment() {
         fragmentInserter.replaceFragment(
                 R.id.main_fragment_container,

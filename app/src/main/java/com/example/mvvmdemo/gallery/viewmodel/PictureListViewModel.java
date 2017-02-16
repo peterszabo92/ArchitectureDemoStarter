@@ -6,9 +6,11 @@ import com.example.mvvmdemo.data.model.ImageModel;
 import com.example.mvvmdemo.gallery.GalleryPageContract;
 import com.example.mvvmdemo.gallery.model.PictureListItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public class PictureListViewModel implements GalleryPageContract.PictureListViewModel {
 
@@ -21,10 +23,15 @@ public class PictureListViewModel implements GalleryPageContract.PictureListView
     @Override
     public Observable<List<ListItem>> getPictureItems() {
         return imageDataController.getCurrentImageModelList()
-                .flatMapIterable(list -> list)
-                .map(PictureListItem::new)
-                .cast(ListItem.class)
-                .toList();
+                .flatMap(this::convertImageModelToListItem);
+    }
+
+    private Observable<List<ListItem>> convertImageModelToListItem(final List<ImageModel> imageModels) {
+        List<ListItem> listItems = new ArrayList<>();
+        for (int i = 0, size = imageModels.size(); i < size; i++) {
+            listItems.add(new PictureListItem(imageModels.get(i)));
+        }
+        return Observable.just(listItems);
     }
 
     public Observable<List<ImageModel>> test() {

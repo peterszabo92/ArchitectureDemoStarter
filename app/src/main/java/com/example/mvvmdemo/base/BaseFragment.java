@@ -12,13 +12,14 @@ import com.example.mvvmdemo.base.view.StateLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseFragment extends Fragment {
 
     @Nullable @BindView(R.id.state_layout) protected StateLayout stateLayout;
 
-    protected CompositeSubscription compositeSubscription = new CompositeSubscription();
+    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Nullable
     @Override
@@ -36,14 +37,14 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        compositeSubscription.unsubscribe();
-        compositeSubscription.clear();
+        compositeDisposable.dispose();
+        compositeDisposable.clear();
     }
 
     protected abstract void init(View view);
