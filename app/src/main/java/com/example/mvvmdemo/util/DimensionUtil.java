@@ -10,6 +10,12 @@ import android.view.WindowManager;
 public class DimensionUtil {
 
     private Context context;
+    private boolean isTabletMode;
+
+    public DimensionUtil(Context context, boolean isTabletMode) {
+        this.context = context;
+        this.isTabletMode = isTabletMode;
+    }
 
     /**
      * This method converts device specific pixels to density independent pixels.
@@ -23,7 +29,7 @@ public class DimensionUtil {
         return px / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    public int dpToPx(int dp) {
+    public int convertDpToPixels(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -33,7 +39,7 @@ public class DimensionUtil {
         return size.x;
     }
 
-    public static int getScreenWidth(Context context) {
+    public int getScreenWidth() {
         final Point size = new Point();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getSize(size);
@@ -51,6 +57,10 @@ public class DimensionUtil {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getSize(size);
         return size.y;
+    }
+
+    public boolean isTablet() {
+        return isTabletMode;
     }
 
 }

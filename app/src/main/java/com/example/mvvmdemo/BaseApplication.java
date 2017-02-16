@@ -2,9 +2,9 @@ package com.example.mvvmdemo;
 
 import android.app.Application;
 
-import com.example.mvvmdemo.component.AppComponent;
-import com.example.mvvmdemo.component.DaggerAppComponent;
-import com.example.mvvmdemo.modul.AppModule;
+import com.example.mvvmdemo.dagger.component.AppComponent;
+import com.example.mvvmdemo.dagger.component.DaggerAppComponent;
+import com.example.mvvmdemo.dagger.modul.AppModule;
 import com.example.mvvmdemo.util.DefaultImageLoader;
 import com.example.mvvmdemo.util.ImageLoader;
 
