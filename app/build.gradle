@@ -73,6 +73,9 @@ dependencies {
 
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
 
+    // Exoplayer
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
+
 }
 
 apply plugin: 'me.tatarka.retrolambda'

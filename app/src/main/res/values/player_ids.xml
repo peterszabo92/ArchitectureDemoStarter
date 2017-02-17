@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="player_content_frame" type="id"/>
+    <item name="player_shutter" type="id"/>
+    <item name="player_controller_placeholder" type="id"/>
+    <item name="player_preview" type="id"/>
+    <item name="player_dark_bg" type="id"/>
+
+</resources>

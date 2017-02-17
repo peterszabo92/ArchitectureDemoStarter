@@ -10,4 +10,17 @@
         <attr name="empty_view_layout" format="reference" />
 
     </declare-styleable>
+
+    <declare-styleable name="DefaultExoPlayerView">
+        <attr name="surface_type"/>
+
+    </declare-styleable>
+
+    <!-- Must be kept in sync with DefaultExoPlayerView -->
+    <attr name="surface_type" format="enum">
+        <enum name="none" value="0"/>
+        <enum name="surface_view" value="1"/>
+        <enum name="texture_view" value="2"/>
+    </attr>
+
 </resources>

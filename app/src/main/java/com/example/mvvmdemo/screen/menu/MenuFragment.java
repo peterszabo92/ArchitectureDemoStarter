@@ -9,6 +9,7 @@ import com.example.mvvmdemo.StartActivity;
 import com.example.mvvmdemo.base.BaseFragment;
 import com.example.mvvmdemo.screen.gallery.GalleryFragment;
 import com.example.mvvmdemo.screen.gallery.fragment.PictureListFragment;
+import com.example.mvvmdemo.screen.playerdemo.PlayerDemoFragment;
 import com.example.mvvmdemo.util.DimensionUtil;
 import com.example.mvvmdemo.util.FragmentInserter;
 
@@ -41,7 +42,7 @@ public class MenuFragment extends BaseFragment {
     public void onExoPlayerMenuClick() {
         fragmentInserter.replaceFragment(
                 R.id.main_fragment_container,
-                Fragment.instantiate(getActivity(), PictureListFragment.class.getName()),
+                Fragment.instantiate(getActivity(), PlayerDemoFragment.class.getName()),
                 null,
                 "");
     }
