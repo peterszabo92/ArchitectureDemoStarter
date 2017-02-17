@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -33,7 +34,7 @@ public class DefaultExoPlayerView extends FrameLayout {
     private View surfaceView;
     private View shutterView;
     private DefaultPlayerControlView controller;
-    private FrameLayout previewFrameLayout;
+    private DefaultPlayerPreview preview;
     private AspectRatioFrameLayout contentFrame;
 
     private DefaultExoPlayerView.ComponentListener componentListener;
@@ -92,18 +93,20 @@ public class DefaultExoPlayerView extends FrameLayout {
             surfaceView = null;
         }
 
-        // Preview frame layout.
-        previewFrameLayout = (FrameLayout) findViewById(R.id.player_preview);
+        // Preview layout.
+        View previewPlaceHolder = findViewById(R.id.player_preview);
+        if (previewPlaceHolder != null) {
+            this.preview = new DefaultPlayerPreview(context, attrs);
+            replacePlaceholder(previewPlaceHolder, preview);
+        } else {
+            this.preview = null;
+        }
 
         // Player control view.
         View controllerPlaceholder = findViewById(R.id.player_controller_placeholder);
         if (controllerPlaceholder != null) {
             this.controller = new DefaultPlayerControlView(context, attrs);
-            controller.setLayoutParams(controllerPlaceholder.getLayoutParams());
-            ViewGroup parent = ((ViewGroup) controllerPlaceholder.getParent());
-            int controllerIndex = parent.indexOfChild(controllerPlaceholder);
-            parent.removeView(controllerPlaceholder);
-            parent.addView(controller, controllerIndex);
+            replacePlaceholder(controllerPlaceholder, controller);
         } else {
             this.controller = null;
         }
@@ -112,6 +115,19 @@ public class DefaultExoPlayerView extends FrameLayout {
 
         this.controllerShowTimeoutMs = controller != null ? controllerShowTimeoutMs : 0;
         this.useController = controller != null;
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    public void replacePlaceholder(View placeHolder, View replacement) {
+        replacement.setLayoutParams(placeHolder.getLayoutParams());
+        ViewGroup parent = ((ViewGroup) placeHolder.getParent());
+        int index = parent.indexOfChild(placeHolder);
+        parent.removeView(placeHolder);
+        parent.addView(replacement, index);
     }
 
     /**
@@ -139,9 +155,9 @@ public class DefaultExoPlayerView extends FrameLayout {
         if (useController) {
             controller.setPlayer(player);
         }
-        // Set the shutter view's visibility
-        if (shutterView != null) {
-            shutterView.setVisibility(VISIBLE);
+        // Set the preview's visibility
+        if (preview != null) {
+            preview.setVisibility(VISIBLE);
         }
 
         if (player != null) {
@@ -156,6 +172,10 @@ public class DefaultExoPlayerView extends FrameLayout {
         } else {
             hideController();
         }
+    }
+
+    public DefaultPlayerPreview getPreview() {
+        return preview;
     }
 
     /**
@@ -253,12 +273,20 @@ public class DefaultExoPlayerView extends FrameLayout {
 
         @Override
         public void onLoadingChanged(boolean isLoading) {
-            // Do nothing.
+            preview.setVisibility(INVISIBLE);
+            shutterView.setVisibility(isLoading ? VISIBLE : INVISIBLE);
         }
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-            maybeShowController(false);
+            switch (playbackState) {
+                case ExoPlayer.STATE_IDLE:
+                    preview.setVisibility(VISIBLE);
+                    break;
+                case ExoPlayer.STATE_READY:
+                    maybeShowController(false);
+                    break;
+            }
         }
 
         @Override

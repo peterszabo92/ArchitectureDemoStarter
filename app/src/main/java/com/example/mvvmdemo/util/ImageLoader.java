@@ -9,4 +9,6 @@ public interface ImageLoader {
 
     void loadSimpleImageFromUrl(ImageView imageView, String url);
 
+    void loadSimpleImageFromUrl(ImageView imageView, String url, int width, int heigth);
+
 }

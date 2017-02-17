@@ -1,12 +1,15 @@
 package com.example.mvvmdemo.player.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.example.mvvmdemo.R;
@@ -40,14 +43,17 @@ public class DefaultPlayerControlView extends FrameLayout {
     private ExoPlayer player;
     private PlaybackControlView.VisibilityListener visibilityListener;
     private DefaultPlayerControlView.ComponentListener componentListener;
-    private final View stopButton;
-    private final View volumeButton;
-    private final View fullscreenButton;
+    private final ImageView stopButton;
+    private final ImageView volumeButton;
+    private final ImageView fullscreenButton;
     private final ProgressBar progressBar;
+    private final Drawable volumeNormal;
+    private final Drawable volumeMuted;
 
     private int showTimeoutMs;
     private long hideAtMs;
     private boolean isAttachedToWindow;
+    private boolean isMuted;
 
     private final Runnable updateProgressAction = this::updateProgress;
 
@@ -67,21 +73,25 @@ public class DefaultPlayerControlView extends FrameLayout {
         final LayoutInflater layoutInflater;
         int defaultControllerLayoutId = R.layout.layout_default_player_control_view;
 
+        volumeMuted = ContextCompat.getDrawable(context, R.drawable.ic_volume_mute_white);
+        volumeNormal = ContextCompat.getDrawable(context, R.drawable.ic_volume_normal);
+
         componentListener = new DefaultPlayerControlView.ComponentListener();
 
         layoutInflater = LayoutInflater.from(context);
         layoutInflater.inflate(defaultControllerLayoutId, this);
         setDescendantFocusability(FOCUS_AFTER_DESCENDANTS);
 
-        stopButton = findViewById(R.id.player_controls_stop);
+        stopButton = (ImageView) findViewById(R.id.player_controls_stop);
         if (stopButton != null) {
             stopButton.setOnClickListener(componentListener);
         }
-        volumeButton = findViewById(R.id.player_controls_volume);
+        volumeButton = (ImageView) findViewById(R.id.player_controls_volume);
         if (volumeButton != null) {
+            volumeButton.setImageDrawable(isMuted ? volumeMuted : volumeNormal);
             volumeButton.setOnClickListener(componentListener);
         }
-        fullscreenButton = findViewById(R.id.player_controls_fullscreen);
+        fullscreenButton = (ImageView) findViewById(R.id.player_controls_fullscreen);
         if (fullscreenButton != null) {
             fullscreenButton.setOnClickListener(componentListener);
         }
@@ -91,7 +101,6 @@ public class DefaultPlayerControlView extends FrameLayout {
             progressBar.setMax(PROGRESS_BAR_MAX);
             progressBar.setProgress(PROGRESS_BAR_MAX);
         }
-
     }
 
     /**
@@ -178,11 +187,12 @@ public class DefaultPlayerControlView extends FrameLayout {
     }
 
     public void stop() {
-
+        player.stop();
     }
 
     public void mute() {
-
+        isMuted = !isMuted;
+        volumeButton.setImageDrawable(isMuted ? volumeMuted : volumeNormal);
     }
 
     /**

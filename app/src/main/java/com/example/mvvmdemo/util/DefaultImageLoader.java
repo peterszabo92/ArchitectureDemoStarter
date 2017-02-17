@@ -25,7 +25,7 @@ public class DefaultImageLoader implements ImageLoader {
             Glide.with(context)
                     .load(url)
                     .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .centerCrop()
                     .fallback(fallbackImage)
                     .into(new BitmapImageViewTarget(imageView) {
@@ -48,7 +48,18 @@ public class DefaultImageLoader implements ImageLoader {
                 .load(url)
                 .asBitmap()
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(imageView);
+    }
+
+    @Override
+    public void loadSimpleImageFromUrl(ImageView imageView, String url, int width, int heigth) {
+        Glide.with(context)
+                .load(url)
+                .asBitmap()
+                .centerCrop()
+                .override(width, heigth)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(imageView);
     }
 }

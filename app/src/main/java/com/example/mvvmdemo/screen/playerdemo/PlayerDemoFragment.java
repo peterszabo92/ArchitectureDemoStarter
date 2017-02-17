@@ -3,6 +3,7 @@ package com.example.mvvmdemo.screen.playerdemo;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.mvvmdemo.BaseApplication;
 import com.example.mvvmdemo.R;
 import com.example.mvvmdemo.StartActivity;
 import com.example.mvvmdemo.base.BaseViewModelFragment;
@@ -32,11 +33,23 @@ public class PlayerDemoFragment extends BaseViewModelFragment<PlayerDemoViewMode
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) playerView.getLayoutParams();
             params.height = height;
             playerView.setLayoutParams(params);
+
+
+            BaseApplication.imageLoader.loadSimpleImageFromUrl(
+                    playerView.getPreview().getPreviewImage(),
+                    "http://i.imgur.com/s6mFAdX.jpg",
+                    width,
+                    height);
         });
+
         player = viewModel.getPlayer();
         playerView.setPlayer(player);
-        player.setPlayWhenReady(true);
-        player.prepare(viewModel.getMediaSource());
+        playerView.getPreview().setOnPlayClickListener(v -> {
+            player.setPlayWhenReady(true);
+            player.prepare(viewModel.getMediaSource());
+        });
+
+
     }
 
     @Override
